@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    // Editor
+    "EditorConfig.EditorConfig",
+    // Markdown
+    "DavidAnson.vscode-markdownlint",
+    "lpubsppop01.vscode-auto-timestamp", // frontmatterの時刻の自動更新
+    "esbenp.prettier-vscode",
+    // Python
+    "ms-python.black-formatter",
+    "ms-python.flake8",
+    "ms-python.isort",
+    "ms-python.mypy-type-checker",
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "njpwerner.autodocstring"
+  ]
+}
