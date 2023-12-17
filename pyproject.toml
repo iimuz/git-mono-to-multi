@@ -1,0 +1,33 @@
+[project]
+authors = [{name = "iimuz", email = "iz.primary.story@gmail.com"}]
+description = "split git history to other repository."
+license = {file = "LICENSE"}
+name = "git-mono-to-multi"
+readme = "README.md"
+requires-python = ">=3.10"
+urls = {repository = "https://github.com/iimuz/git-mono-to-multi"}
+version = "1.0.0"
+
+dependencies = []
+
+[tools.setuptools.package-dir]
+git_mono_to_multi = "src"
+
+[project.optional-dependencies]
+dev = [
+  "black",
+  "flake8",
+  "flake8-black",
+  "flake8-bugbear",
+  "flake8-docstrings",
+  "flake8-isort",
+  "isort",
+  "mypy",
+]
+test = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=63", "wheel"]
+
+[tool.isort]
+profile = "black"
