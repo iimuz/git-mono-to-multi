@@ -237,14 +237,22 @@ def _git_rename(
     names: dict[Path, Path],  # (元のファイルパス, 変更後のファイルパス)
     dry_run: bool,
     timeout_sec: int,
-) -> None:
+) -> bool:  # renameが発生した場合にTrueが返る
+    is_rename = False
     with _working_directory(git_directory):
         for src, dst in names.items():
+            if not src.exists():
+                _logger.info(f"{src} does not exist. skip.")
+                continue
+
             _run_command(
                 ["git", "mv", str(src), str(dst)],
                 dry_run=dry_run,
                 timeout_sec=timeout_sec,
             )
+            is_rename = True
+
+    return is_rename
 
 
 def _main() -> None:
@@ -301,20 +309,21 @@ def _main() -> None:
         timeout_sec=config.default_timeout_sec,
     )
     # あらかじめ指定したファイルだけは名称変更
-    _git_rename(
+    is_rename = _git_rename(
         git_directory=repository_dir,
         names=rename_files,
         dry_run=config.dry_run,
         timeout_sec=config.default_timeout_sec,
     )
-    _git_commit(
-        git_directory=repository_dir,
-        user_name=config.git_user_name,
-        user_email=config.git_user_email,
-        message="chore: change filenames.",
-        dry_run=config.dry_run,
-        timeout_sec=config.default_timeout_sec,
-    )
+    if is_rename:
+        _git_commit(
+            git_directory=repository_dir,
+            user_name=config.git_user_name,
+            user_email=config.git_user_email,
+            message="chore: change filenames.",
+            dry_run=config.dry_run,
+            timeout_sec=config.default_timeout_sec,
+        )
 
     # 抽出した履歴を作成するためのリポジトリを作成しpushできるように設定
     _create_gh_repo_and_set_upstream(
