@@ -244,7 +244,7 @@ def _git_rename(
             if not src.exists():
                 _logger.info(f"{src} does not exist. skip.")
                 continue
-            if not dst.exists():
+            if dst.exists():
                 _logger.info(f"{dst} exists. skip.")
                 continue
 
