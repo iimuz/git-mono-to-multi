@@ -244,6 +244,9 @@ def _git_rename(
             if not src.exists():
                 _logger.info(f"{src} does not exist. skip.")
                 continue
+            if not dst.exists():
+                _logger.info(f"{dst} exists. skip.")
+                continue
 
             _run_command(
                 ["git", "mv", str(src), str(dst)],
